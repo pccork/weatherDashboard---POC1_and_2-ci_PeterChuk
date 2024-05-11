@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html class="has-background-white" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>(Weather) Weather</title>
+  <!--<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png" />-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+  
+  <script src="js/bulma.js"></script>
+  <script src="js/weather_data.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    // Get all "navbar-burger" elements
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+    // Add a click event on each of them
+    $navbarBurgers.forEach(el => {
+        el.addEventListener('click', () => {
+
+            // Get the target from the "data-target" attribute
+            const target = el.dataset.target;
+            const $target = document.getElementById(target);
+
+            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+            el.classList.toggle('is-active');
+            $target.classList.toggle('is-active');
+
+        });
+    });
+});
+</script>
+
+  <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const currentCity = urlParams.get('city');
+            //const currentCity = 'paris';
+            const dailyData = weatherData[currentCity + "_daily"].daily;
+            const hourlyData = weatherData[currentCity + "_hourly"].hourly;
+
+             //Settup up daty and time object 
+            const now = dayjs(); // create a new date object that represents this time
+            const currentHour = now.hour(); // 0 - 23 as a number
+
+            // index of the current hour in the time array
+            // index to query the termperature_2m data
+            const indexOfCurrentHour = hourlyData.time.indexOf(`TodayT${currentHour}:00`);
+            //const indexOfCurrentHourTomorrow = hourlyData.time.indexOf(`Today+1T${currentHour}:00`);
+            //const indexOfCurrentHourDayAfterTomorrow = hourlyData.time.indexOf(`Today+2T${currentHour}:00`);
+            console.log(`The index of the current hour is : ${indexOfCurrentHour}`);
+            //console.log(`The index of the current hour tomorrow is : ${indexOfCurrentHourTomorrow}`);
+            //console.log(`The index of the current hour day after tomorrow is : ${indexOfCurrentHourDayAfterTomorrow}`);
+
+
+            //setup weather and weather codes 7 days  using data from datastore
+            //Hourly weather to weather code
+            let hourlyWeather = 'Unknown'
+            const hourlyWeatherCode = hourlyData.weather_code[indexOfCurrentHour];
+            if(hourlyWeatherCode === 0){
+                hourlyWeather = "Clear Sky"; // or weatherImage = /images/weatherIcons/clearsky.png
+            } else if(hourlyWeatherCode >= 1 && hourlyWeatherCode <= 3){
+                hourlyWeather = "Overcast"; // or weatherImage = /images/weatherIcons/overcast.png
+            } else if(weatherCode >=45 && weatherCode <= 48){
+                hourlyWeather = "Foggy";
+            } else (hourlyWeather = "Raining");
+          
+            //Today
+            let weather = 'Unknown'
+            const weatherCode = dailyData.weather_code[0];
+            if(weatherCode === 0){
+                weather = "Clear Sky"; // or weatherImage = /images/weatherIcons/clearsky.png
+            } else if(weatherCode >= 1 && weatherCode <= 3){
+                weather = "Overcast"; // or weatherImage = /images/weatherIcons/overcast.png
+            } else if(weatherCode >=45 && weatherCode <= 48){
+                weather = "Foggy";
+            } else (weather = "Raining");
+            //Tomorrow
+            let weatherTomorrow = 'Unknown'
+            const weatherCodeTomorrow = dailyData.weather_code[1];
+            if(weatherCodeTomorrow === 0){
+                weatherTomorrow = "Clear Sky"; // or weatherImage = /images/weatherIcons/clearsky.png
+            } else if(weatherCodeTomorrow >= 1 && weatherCodeTomorrow <= 3){
+                weatherTomorrow = "Overcast"; // or weatherImage = /images/weatherIcons/overcast.png
+            } else if(weatherCodeTomorrow >=45 && weatherCode <= 48){
+                weatherTomorrow = "Foggy";
+            } else { weatherTomorrow = "Raining";}
+            //Day aftrer tomorrow
+            let weatherDayAfterTomorrow = 'Unknown'
+            const weatherCodeDayAfterTomorrow = dailyData.weather_code[2];
+            if(weatherCodeDayAfterTomorrow === 0){
+                weatherDayAfterTomorrow = "Clear Sky"; // or weatherImage = /images/weatherIcons/clearsky.png
+            } else if(weatherCodeDayAfterTomorrow >= 1 && weatherCodeDayAfterTomorrow <= 3){
+                //weatherDayAfterTomorrow = "Overcast"; // or weatherImage = /images/weatherIcons/overcast.png
+            } else if(weatherCodeDayAfterTomorrow >=45 && weatherCode <= 48){
+                weatherDayAfterTomorrow = "Foggy";
+            } else { weatherDayAfterTomorrow = "Raining";}
+            
+            //Two Day after Tomorrow weather code
+            let weatherTwoDayAfterTomorrow = 'Unknown'
+            const weatherCodeTwoDayAfterTomorrow = dailyData.weather_code[3];
+            if(weatherCodeTwoDayAfterTomorrow === 0){
+                weatherTwoDayAfterTomorrow = "Clear Sky"; // or weatherImage = /images/weatherIcons/clearsky.png
+            } else if(weatherCodeTwoDayAfterTomorrow >= 1 && weatherCodeTwoDayAfterTomorrow <= 3){
+                weatherTwoDayAfterTomorrow = "Overcast"; // or weatherImage = /images/weatherIcons/overcast.png
+            } else if(weatherCodeTwoDayAfterTomorrow >=45 && weatherCodeTwoDayAfterTomorrow <= 48){
+                weatherTwoDayAfterTomorrow = "Foggy";
+            } else { weatherTwoDayAfterTomorrow = "Raining";}
+            
+            //Three Day after Tomorrow weather code
+            let weatherThreeDayAfterTomorrow = 'Unknown'
+            const weatherCodeThreeDayAfterTomorrow = dailyData.weather_code[4];
+            if(weatherCodeThreeDayAfterTomorrow === 0){
+                weatherThreeDayAfterTomorrow = "Clear Sky"; // or weatherImage = /images/weatherIcons/clearsky.png
+            } else if(weatherCodeThreeDayAfterTomorrow >= 1 && weatherCodeThreeDayAfterTomorrow <= 3){
+                weatherThreeDayAfterTomorrow = "Overcast"; // or weatherImage = /images/weatherIcons/overcast.png
+            } else if(weatherCodeThreeDayAfterTomorrow >=45 && weatherCodeThreeDayAfterTomorrow <= 48){
+                weatherThreeDayAfterTomorrow = "Foggy";
+            } else { weatherThreeDayAfterTomorrow = "Raining";}
+            
+            //Four Day after Tomorrow weather code
+            let weatherFourDayAfterTomorrow = 'Unknown'
+            const weatherCodeFourDayAfterTomorrow = dailyData.weather_code[5];
+            if(weatherCodeFourDayAfterTomorrow === 0){
+                weatherFourDayAfterTomorrow = "Clear Sky"; // or weatherImage = /images/weatherIcons/clearsky.png
+            } else if(weatherCodeFourDayAfterTomorrow >= 1 && weatherCodeFourDayAfterTomorrow <= 3){
+                weatherFourDayAfterTomorrow = "Overcast"; // or weatherImage = /images/weatherIcons/overcast.png
+            } else if(weatherCodeFourDayAfterTomorrow >=45 && weatherCodeFourDayAfterTomorrow <= 48){
+                weatherFourDayAfterTomorrow = "Foggy";
+            } else { weatherFourDayAfterTomorrow = "Raining";}
+            console.log(weatherCodeFourDayAfterTomorrow);
+            //Five Day after Tomorrow weather code
+            let weatherFiveDayAfterTomorrow = 'Unknown'
+            const weatherCodeFiveDayAfterTomorrow = dailyData.weather_code[6];
+            if(weatherCodeFiveDayAfterTomorrow === 0){
+                weatherFiveDayAfterTomorrow = "Clear Sky"; // or weatherImage = /images/weatherIcons/clearsky.png
+            } else if(weatherCodeFiveDayAfterTomorrow >= 1 && weatherCodeFiveDayAfterTomorrow <= 3){
+                weatherFiveDayAfterTomorrow = "Overcast"; // or weatherImage = /images/weatherIcons/overcast.png
+            } else if(weatherCodeFiveDayAfterTomorrow >=45 && weatherCodeFiveDayAfterTomorrow <= 48){
+                weatherFiveDayAfterTomorrow = "Foggy";
+            } else { weatherFiveDayAfterTomorrow = "Raining";}
+
+            //Set current city variable to the DOM  const currentCity = 'paris';
+            
+            const currentCityElement = document.getElementById("city");
+            currentCityElement.innerHTML = currentCity;
+
+        
+            //Setting up weather and weathercode to the DOM
+            const hourlyWeatherCodeElement = document.getElementById("weatherCodeHourly");
+            const hourlyWeatherElement = document.getElementById("weatherHourly");
+            console.log(hourlyWeather);
+            hourlyWeatherElement.innerHTML = hourlyWeather;
+
+
+
+            const weatherCodeTodayElement = document.getElementById("weatherCodeToday");
+            const weatherTodayElement = document.getElementById("weatherToday");
+
+            const weatherCodeTomorrowElement = document.getElementById("weatherCodeTomorrow");
+            const weatherTomorrowElement = document.getElementById("weatherTomorrow");
+
+            const weatherCodeDayAfterTomorrowElement = document.getElementById("weatherCodeDayAfterTomorrow");
+            const weatherDayAfterTomorrowElement = document.getElementById("weatherDayAfterTomorrow");
+
+            const weatherCodeTwoDayAfterTomorrowElement = document.getElementById("weatherCodeTwoDayAfterTomorrow");
+            const weatherTwoDayAfterTomorrowElement = document.getElementById("weatherTwoDayAfterTomorrow");
+
+            const weatherCodeThreeDayAfterTomorrowElement = document.getElementById("weatherCodeThreeDayAfterTomorrow");
+            const weatherThreeDayAfterTomorrowElement = document.getElementById("weatherThreeDayAfterTomorrow");
+
+            const weatherCodeFourDayAfterTomorrowElement = document.getElementById("weatherCodeFourDayAfterTomorrow");
+            const weatherFourDayAfterTomorrowElement = document.getElementById("weatherFourDayAfterTomorrow");
+
+            const weatherCodeFiveDayAfterTomorrowElement = document.getElementById("weatherCodeFiveDayAfterTomorrow");
+            const weatherFiveDayAfterTomorrowElement = document.getElementById("weatherFiveDayAfterTomorrow");
+
+
+
+
+            //Mapping weatherCode and weather to HTML         
+            //weatherCodeTodayElement.innerHTML = weatherCode;
+            weatherTodayElement.innerHTML = weather;
+            //weatherCodeTomorrowElement.innerHTML = dailyData.weather_code[1];
+            weatherTomorrowElement.innerHTML = weatherTomorrow;
+            //weatherCodeDayAfterTomorrowElement.innerHTML = dailyData.weather_code[2];  ("weather code" not in use do not map to HTML with innerHTML)
+            weatherDayAfterTomorrowElement.innerHTML = weatherDayAfterTomorrow;
+            weatherTwoDayAfterTomorrowElement.innerHTML = weatherTwoDayAfterTomorrow;
+            weatherThreeDayAfterTomorrowElement.innerHTML = weatherThreeDayAfterTomorrow;
+            weatherFourDayAfterTomorrowElement.innerHTML = weatherFourDayAfterTomorrow;
+            weatherFiveDayAfterTomorrowElement.innerHTML = weatherFiveDayAfterTomorrow;
+
+            const timeElement = document.getElementById("time");
+
+
+            //setting up daily tempeture objects
+            const tempElement = document.getElementById("temp");
+            //const tempTomorrowElement = document.getElementById("tempTomorrow");
+
+            
+            
+            
+            //setting up day object
+            const dayElement = document.getElementById("day");
+            const tomorrowElement = document.getElementById("tomorrow");
+            const dayAfterTomorrowElement = document.getElementById("dayAfterTomorrow");
+            const twoDayAfterTomorrowElement = document.getElementById("twoDayAfterTomorrow");
+            const threeDayAfterTomorrowElement = document.getElementById("threeDayAfterTomorrow");
+            const fourDayAfterTomorrowElement = document.getElementById("fourDayAfterTomorrow");
+            const fiveDayAfterTomorrowElement = document.getElementById("fiveDayAfterTomorrow");
+          
+            
+            //Map day and time element to HTML
+            timeElement.innerHTML = `${currentHour}:00`;
+            dayElement.innerHTML = now.format("dddd");
+            tomorrowElement.innerHTML = now.add(1, 'day').format("dddd");
+            dayAfterTomorrowElement.innerHTML = now.add(2, 'day').format("dddd");
+            twoDayAfterTomorrowElement.innerHTML = now.add(3, 'day').format("dddd");
+            threeDayAfterTomorrowElement.innerHTML = now.add(4, 'day').format("dddd");
+            fourDayAfterTomorrowElement.innerHTML = now.add(5, 'day').format("dddd");
+            fiveDayAfterTomorrowElement.innerHTML = now.add(6, 'day').format("dddd");
+
+
+            //Map hourly temp data to HTML
+            tempElement.innerHTML = hourlyData.temperature_2m[indexOfCurrentHour];
+
+            //tempTomorrowElement.innerHTML = hourlyData.temperature_2m[indexOfCurrentHourTomorrow];
+            
+            //Set maxTemp variable and map it to the HTML
+            const todayMaxTemp = dailyData.temperature_2m_max[0];
+            const maxTempElement = document.getElementById("maxTemp");
+            maxTempElement.innerHTML = todayMaxTemp;
+
+            const tomorrowMaxTemp = dailyData.temperature_2m_max[1];
+            const tomorrowMaxTempElement = document.getElementById("tomorrowMaxTemp");
+            tomorrowMaxTempElement.innerHTML = tomorrowMaxTemp;
+
+            const dayAfterTomorrowMaxTemp = dailyData.temperature_2m_max[2];
+            const dayAfterTomorrowMaxTempElement = document.getElementById("dayAfterTomorrowMaxTemp");
+            dayAfterTomorrowMaxTempElement.innerHTML = dayAfterTomorrowMaxTemp;
+            
+            const twoDayAfterTomorrowMaxTemp = dailyData.temperature_2m_max[3];
+            const twoDayAfterTomorrowMaxTempElement = document.getElementById("twoDayAfterTomorrowMaxTemp");
+            twoDayAfterTomorrowMaxTempElement.innerHTML = twoDayAfterTomorrowMaxTemp;
+
+            const threeDayAfterTomorrowMaxTemp = dailyData.temperature_2m_max[4];
+            const threeDayAfterTomorrowMaxTempElement = document.getElementById("threeDayAfterTomorrowMaxTemp");
+            threeDayAfterTomorrowMaxTempElement.innerHTML = threeDayAfterTomorrowMaxTemp;
+
+            const fourDayAfterTomorrowMaxTemp = dailyData.temperature_2m_max[5];
+            const fourDayAfterTomorrowMaxTempElement = document.getElementById("fourDayAfterTomorrowMaxTemp");
+            fourDayAfterTomorrowMaxTempElement.innerHTML = fourDayAfterTomorrowMaxTemp;
+
+            const fiveDayAfterTomorrowMaxTemp = dailyData.temperature_2m_max[6];
+            const fiveDayAfterTomorrowMaxTempElement = document.getElementById("fiveDayAfterTomorrowMaxTemp");
+            fiveDayAfterTomorrowMaxTempElement.innerHTML = fiveDayAfterTomorrowMaxTemp;
+
+
+            //Set minTemp variable and map it to the HTML
+            const todayMinTemp = dailyData.temperature_2m_min[0];
+            const minTempElement = document.getElementById("minTemp");
+            minTempElement.innerHTML = todayMinTemp;
+
+            const tomorrowMinTemp = dailyData.temperature_2m_min[1];
+            const tomorrowMinTempElement = document.getElementById("tomorrowMinTemp");
+            tomorrowMinTempElement.innerHTML = tomorrowMinTemp;
+
+            const dayAfterTomorrowMinTemp = dailyData.temperature_2m_min[2];
+            const dayAfterTomorrowMinTempElement = document.getElementById("dayAfterTomorrowMinTemp");
+            dayAfterTomorrowMinTempElement.innerHTML = dayAfterTomorrowMinTemp;
+
+            const twoDayAfterTomorrowMinTemp = dailyData.temperature_2m_min[3];
+            const twoDayAfterTomorrowMinTempElement = document.getElementById("twoDayAfterTomorrowMinTemp");
+            twoDayAfterTomorrowMinTempElement.innerHTML = twoDayAfterTomorrowMinTemp;
+
+            const threeDayAfterTomorrowMinTemp = dailyData.temperature_2m_min[4];
+            const threeDayAfterTomorrowMinTempElement = document.getElementById("threeDayAfterTomorrowMinTemp");
+            threeDayAfterTomorrowMinTempElement.innerHTML = threeDayAfterTomorrowMinTemp;
+
+            const fourDayAfterTomorrowMinTemp = dailyData.temperature_2m_min[5];
+            const fourDayAfterTomorrowMinTempElement = document.getElementById("fourDayAfterTomorrowMinTemp");
+            fourDayAfterTomorrowMinTempElement.innerHTML = fourDayAfterTomorrowMinTemp;
+
+            const fiveDayAfterTomorrowMinTemp = dailyData.temperature_2m_min[6];
+            const fiveDayAfterTomorrowMinTempElement = document.getElementById("fiveDayAfterTomorrowMinTemp");
+            fiveDayAfterTomorrowMinTempElement.innerHTML = fiveDayAfterTomorrowMinTemp;
+
+            //Set hourly windSpeed variable and map it to the DOM
+            const hourlyWindSpeed = hourlyData.wind_speed_10m[indexOfCurrentHour];
+            const hourlyWindSpeedElement = document.getElementById("hourlyWindSpeed");
+            hourlyWindSpeedElement.innerHTML = hourlyWindSpeed;
+
+            
+            
+            //Set windSpeed variable and map it to the DOM
+            const todayWindSpeed = dailyData.wind_speed_10m_max[0];
+            const windSpeedElement = document.getElementById("windSpeed");
+            //windSpeedElement.innerHTML = todayWindSpeed;
+
+            //Set hourly relative humidity variable and map it to the DOM
+            const hourlyHumidity = hourlyData.relative_humidity_2m[indexOfCurrentHour];
+            const hourlyHumidityElement = document.getElementById("hourlyHumidity");
+            hourlyHumidityElement.innerHTML = hourlyHumidity;
+
+
+
+        });
+    </script>
+</head>
+<body>
+  <!-- START NAV -->
+  <nav class="navbar has-background-black">
+    <div class="navbar-brand">
+      <a class="navbar-item is-size-1-tablet has-text-white">
+        <p>Weather</p>
+      </a>
+      <span class="navbar-burger has-background-black" data-target="navbarMenu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </span>
+    </div>
+    <div id="navbarMenu" class="navbar-menu">
+      <div class="navbar-end has-background-black">
+        <a href="/dashboard/" class="navbar-item has-text-white"> 
+          Dashboard
+        </a>
+        <a href="/index?city=cork" class="navbar-item has-text-white">
+          City Focus
+        </a>
+        <a href="/preference/" class="navbar-item has-text-white">
+          Preference
+        </a>
+      </div>
+    </div>
+  </nav>
+  <!-- END NAV -->
+  <main class="columns is-multiline box has-background-white">
+    <div class="column is-4 has-text-centered has-background-white">
+      <!-- box for weather-weather logo -->
+      <div class="card-image">
+          <figure class="image">
+            <img src="/images/weather-icon-city-page.png" alt="Image">
+          </figure>
+        </div>
+    </div>
+    <!-- box for city logo -->
+    <div class="column is-4 ">
+      <section class="card has-text-centered has-text-black has-background-white">
+        <header class="card-header">
+          <p class="card-header-title is-size-4 is-centered">
+            <span id="city"></span> &nbsp; today 
+            <p class="content is-size-4">(choose city of interest in Dashboard)</p>
+          </p>
+        </header>
+      </section>
+    </div>
+    <!-- box for time weather & wind speed -->
+    <div class="column is-4">
+      <section class="card has-text-centered has-text-white has-background-black">
+        <header class="card-header">
+          <p class="card-header-title is-size-4 is-centered has-text-white">
+            The time is <span id="time"></span>
+          </p>
+        </header>
+        <article class="card-content">
+          <p class="content is-size-4">
+            The weather this hour is <span id="weatherHourly"></span>
+          </p>
+          
+        </article>
+        <article class="card-content">
+          <p class="content is-size-4">
+            Hourly Wind speed <span id="hourlyWindSpeed"></span> km/h
+          </p>
+        </article>
+      </section>
+    </div>
+    <!-- box for hourly Temp -->
+    <div class="column is-4">
+      <section class="card has-text-centered has-text-white has-background-black">
+        <header class="card-header">
+          <p class="card-header-title is-size-4 is-centered has-text-white">
+            Temperature this hour
+          </p>
+        </header>
+        <article class="card-content">
+          <p class="content is-size-4">
+            <span id="temp"></span>&deg;C
+          </p>
+        </article>
+      </section>
+    </div>
+    <!-- box for wind gusts -->
+    <div class="column is-4">
+      <section class="card has-text-centered has-text-white has-background-black">
+        <header class="card-header">
+          <p class="card-header-title is-size-4 is-centered has-text-white">
+            Relative humidity this hour
+          </p>
+        </header>
+        <article class="card-content">
+          <p class="content is-size-4">
+            <span id="hourlyHumidity"></span>&#37;
+          </p>
+        </article>
+      </section>
+    </div>
+
+  </main>
+  <!--1. footer 7 boxes with 7 days weather and Max. Min. temp -->
+  <footer class="columns is-multiline box has-background-white">
+    <div class="column is-1.5 ">
+        <section class="card has-text-centered has-text-white has-background-black">
+          <header class="card-header">
+            <p class="card-header-title is-size-4 is-centered has-text-white">
+              <span id="day"></span></p>
+            </p>
+          </header>
+          <div>
+            <article class="card-content">
+              <p class="content is-size-4">The weather is <span id="weatherToday"></span></p>
+            </article>
+          </div>
+          <article class="card-content">
+            <p class="card-footer-title is-size-4 is-centered">
+              <span id="minTemp"></span>&deg;C to <span id="maxTemp"></span>&deg;C
+            </p>
+          </article>
+        </section>
+      </div>
+      <!--Box 2 for tomorrow -->
+      <div class="column is-1.5 ">
+        <section class="card has-text-centered has-text-white has-background-black">
+          <header class="card-header">
+            <p class="card-header-title is-size-4 is-centered has-text-white">
+              <span id="tomorrow"></span></p>
+            </p>
+          </header>
+          <div>
+            <article class="card-content">
+              <p class="content is-size-4">The weather is <span id="weatherTomorrow"></span></p>
+            </article>
+          </div>
+          <article class="card-content">
+            <p class="card-footer-title is-size-4 is-centered">
+              <span id="tomorrowMinTemp"></span>&deg;C to <span id="tomorrowMaxTemp"></span>&deg;C
+            </p>
+          </article>
+        </section>
+      </div>
+      <!--Box 3 for Day after tomorrow -->
+      <div class="column is-1.5 ">
+        <section class="card has-text-centered has-text-white has-background-black">
+          <header class="card-header">
+            <p class="card-header-title is-size-4 is-centered has-text-white">
+              <span id="dayAfterTomorrow"></span>
+            </p>
+          </header>
+          <div>
+            <article class="card-content">
+              <p class="content is-size-4">The weather is <span id="weatherDayAfterTomorrow"></span></p>
+            </article>
+          </div>
+          <article class="card-content">
+            <p class="card-footer-title is-size-4 is-centered">
+              <span id="dayAfterTomorrowMinTemp"></span>&deg;C to <span id="dayAfterTomorrowMaxTemp"></span>&deg;C
+            </p>
+          </article>
+        </section>
+      </div>
+      <!--Box 4 for two Day after tomorrow -->
+      <div class="column is-1.5 ">
+        <section class="card has-text-centered has-text-white has-background-black">
+          <header class="card-header">
+            <p class="card-header-title is-size-4 is-centered has-text-white">
+              <span id="twoDayAfterTomorrow"></span>
+            </p>
+          </header>
+          <div>
+            <article class="card-content">
+              <p class="content is-size-4">The weather is <span id="weatherTwoDayAfterTomorrow"></span></p>
+            </article>
+          </div>
+          <article class="card-content">
+            <p class="card-footer-title is-size-4 is-centered">
+              <span id="twoDayAfterTomorrowMinTemp"></span>&deg;C to <span id="twoDayAfterTomorrowMaxTemp"></span>&deg;C
+            </p>
+          </article>
+        </section>
+      </div>
+      <!--Box 5 for three Day after tomorrow -->
+      <div class="column is-1.5 ">
+        <section class="card has-text-centered has-text-white has-background-black">
+          <header class="card-header">
+            <p class="card-header-title is-size-4 is-centered has-text-white">
+              <span id="threeDayAfterTomorrow"></span>
+            </p>
+          </header>
+          <div>
+            <article class="card-content">
+              <p class="content is-size-4">The weather is <span id="weatherThreeDayAfterTomorrow"></span></p>
+            </article>
+          </div>
+          <article class="card-content">
+            <p class="card-footer-title is-size-4 is-centered">
+              <span id="threeDayAfterTomorrowMinTemp"></span>&deg;C to <span id="threeDayAfterTomorrowMaxTemp"></span>&deg;C
+            </p>
+          </article>
+        </section>
+      </div>
+      <!--Box 6 for four Day after tomorrow -->
+      <div class="column is-1.5 ">
+        <section class="card has-text-centered has-text-white has-background-black">
+          <header class="card-header">
+            <p class="card-header-title is-size-4 is-centered has-text-white">
+              <span id="fourDayAfterTomorrow"></span>
+            </p>
+          </header>
+          <div>
+            <article class="card-content">
+              <p class="content is-size-4">The weather is <span id="weatherFourDayAfterTomorrow"></span></p>
+            </article>
+          </div>
+          <article class="card-content">
+            <p class="card-footer-title is-size-4 is-centered">
+              <span id="fourDayAfterTomorrowMinTemp"></span>&deg;C to <span id="fourDayAfterTomorrowMaxTemp"></span>&deg;C
+            </p>
+          </article>
+        </section>
+      </div>
+      <!--Box 7 for five Day after tomorrow -->
+      <div class="column is-1.5 ">
+        <section class="card has-text-centered has-text-white has-background-black">
+          <header class="card-header">
+            <p class="card-header-title is-size-4 is-centered has-text-white">
+              <span id="fiveDayAfterTomorrow"></span>
+            </p>
+          </header>
+          <div>
+            <article class="card-content">
+              <p class="content is-size-4">The weather is <span id="weatherFiveDayAfterTomorrow"></span></p>
+            </article>
+          </div>
+          <article class="card-content">
+            <p class="card-footer-title is-size-4 is-centered">
+              <span id="fiveDayAfterTomorrowMinTemp"></span>&deg;C to <span id="fiveDayAfterTomorrowMaxTemp"></span>&deg;C
+            </p>
+          </article>
+        </section>
+      </div>
+      
+  </footer>   
+    
+</body>
+
+
+</html>

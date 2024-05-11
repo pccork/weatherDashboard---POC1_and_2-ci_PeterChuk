@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html class="has-background-white" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>(Weather) Weather</title>
+  <!--<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png" />-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+  </script>
+  <script src="js/bulma.js"></script>
+  <script src="js/weather_data.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cityLists = [
+        "amsterdam", "berlin", "cork",  "paris", "tromso",  "waterford",  ];
+      for (let index = 0; index < cityLists.length; index++) {
+        const cityList = cityLists[index] //cityLists[0]
+
+        const currentCityListElement = document.getElementById(`city_${index + 1}`);
+        currentCityListElement.innerHTML = cityList;
+        console.log(cityLists[0]);
+        
+      };
+    });
+    </script>
+
+</head>
+
+<body>
+  <!-- START NAV -->
+  <nav class="navbar has-background-black">
+    <div class="navbar-brand">
+      <a class="navbar-item is-size-1-tablet has-text-white">
+        <p>Weather</p>
+      </a>
+      <span class="navbar-burger has-background-black" data-target="navbarMenu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </span>
+    </div>
+    <div id="navbarMenu" class="navbar-menu">
+     <div class="navbar-end has-background-black">
+        <a href="/dashboard/" class="navbar-item has-text-white"> 
+          Dashboard
+        </a>
+        <a href="/index?city=cork" class="navbar-item has-text-white">
+          City Focus
+        </a>
+        <a href="/preference/" class="navbar-item has-text-white">
+          Preference
+        </a>
+      </div>
+    </div>
+  </nav>
+  <!-- END NAV -->
+
+ <main class="columns is-multiline box has-background-grey-darker is-centered">
+    <div class="column is-12 has-text-centered has-text-white">
+      <p class="is-size-1">Preference site is under construction</p>
+    </div>
+  </main>
+    
+</html>
+

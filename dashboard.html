@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html class="has-background-white" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>(Weather) Weather</title>
+  <!--<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png" />-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+  </script>
+  <script src="js/bulma.js"></script>
+  <script src="js/weather_data.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cityLists = [
+        {
+          city: "amsterdam",  
+        },
+        {
+          city: "berlin",  
+        },
+        {
+          city: "cork",  
+        },
+        {
+          city: "paris",  
+        },
+        {
+          city: "tromso",  
+        },
+        {
+          city: "waterford",  
+        },
+      ];
+       
+        
+      for (let index = 0; index < cityLists.length; index++) {
+        const cityList = cityLists[index] //cityLists[0]
+        console.log(cityList);
+
+        const currentCityListElement = document.getElementById(`city_${index + 1}`);
+        currentCityListElement.innerHTML = cityList.city;
+        
+    
+       
+        //const cityList = cityLists[index];
+        const dailyData_1 = weatherData[cityList + "_daily"].daily;
+        const weatherCode_1 = dailyData_1.weather_code[0]; 
+    
+        //city_1
+            
+        
+        //weather_1     
+        let weather_1 = 'Unknown'           
+        if(weatherCode_1 === 0){weather_1 = "Clear Sky"; 
+        } else if(weatherCode_1 >= 1 && weatherCode_1 <= 3){weather_1 = "Overcast"; 
+        } else if(weatherCode_1 >=45 && weatherCode_1 <= 48){weather_1 = "Foggy";
+        } else (weather_1 = "Raining");                            
+        //const currentCityElement_1 = document.getElementById("city_1");
+        //currentCityElement_1.innerHTML = currentCity_1;         
+        const weatherCodeTodayElement_1 = document.getElementById(`weatherCodeToday_${index + 1}`);
+        
+        //weatherToday_1
+        const weatherTodayElement_1 = document.getElementById(`weatherToday_${index + 1}`); 
+        weatherTodayElement_1.innerHTML = weather_1;
+        //maxTemp_1
+        const todayMaxTemp_1 = dailyData_1.temperature_2m_max[0];
+        const maxTempElement_1 = document.getElementById(`maxTemp_${index + 1}`);
+        maxTempElement_1.innerHTML = todayMaxTemp_1; 
+        //minTemp_1
+        const todayMinTemp_1 = dailyData_1.temperature_2m_min[0];
+        const minTempElement_1 = document.getElementById(`minTemp_${index + 1}`);
+        minTempElement_1.innerHTML = todayMinTemp_1;    
+      };
+
+    });
+  </script>
+
+
+ 
+</head>
+
+<body>
+  <!-- START NAV -->
+  <nav class="navbar has-background-black">
+    <div class="navbar-brand">
+      <a class="navbar-item is-size-1-tablet has-text-white">
+        <p>Weather</p>
+      </a>
+      <span class="navbar-burger has-background-black" data-target="navbarMenu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </span>
+    </div>
+    <div id="navbarMenu" class="navbar-menu">
+      <div class="navbar-end has-background-black">
+        <a href="/dashboard/" class="navbar-item has-text-white"> 
+          Dashboard
+        </a>
+        <a href="/index?city=cork" class="navbar-item has-text-white">
+          City Focus
+        </a>
+        <a href="/preference/" class="navbar-item has-text-white">
+          Preference
+        </a>
+      </div>
+    </div>
+  </nav>
+  <!-- END NAV -->
+
+  <main class="columns is-multiline box has-background-white">
+      <div class="column is-3 has-text-centered has-background-white">
+          <section class="card has-text-centered">
+            <figure class="image">
+              <img src="/images/weather-icon-city-page.png" alt="Image">
+            </figure>
+          </section> 
+      </div>
+      <div class="column is-9 has-text-centered has-background-white">        
+            <article class="card-content">     
+              <p class="card-header-title is-size-1">Dashboard site is under construction under this template</p>
+              <p class="card-header-title is-size-1">Use Weekly Weather Forecast bottom to choose city to display in City Focus</p>
+            </article>
+          </section> 
+      </div>     
+
+    <div class="column is-4 ">
+        <section class="card has-text-centered has-text-white has-background-black">
+          <header class="card-header">
+            <p class="card-header-title is-size-4 is-centered has-text-white">
+              Amsterdam
+            </p>
+          </header>
+          <article class="card-content">
+            <p class="content is-size-4">The weather is <span id="weatherToday_1"></span></p>
+          </article>
+          <article class="card-content">
+            <p class="card-footer-title is-size-4 is-centered">
+              <span id="minTemp_1"></span>&deg;C to <span id="maxTemp_1"></span>&deg;C
+            </p>
+          </article>
+          <footer class="card-footer is-flex-direction-row " >   
+              <a href="/index?city=amsterdam" class="card-footer-item button ">Weekly Weather Forecast</a>                       
+            </p>
+          </footer> 
+        </section>
+      </div>
+
+    <div class="column is-4 ">
+        <section class="card has-text-centered has-text-white has-background-black">
+          <header class="card-header">
+            <p class="card-header-title is-size-4 is-centered has-text-white">
+              Berlin
+            </p>
+          </header>
+          <article class="card-content">
+            <p class="content is-size-4">The weather is <span id="weatherToday_2"></span></p>
+          </article>
+          <article class="card-content">
+            <p class="card-footer-title is-size-4 is-centered">
+              <span id="minTemp_2"></span>&deg;C to <span id="maxTemp_2"></span>&deg;C
+            </p>
+          </article>
+          <footer class="card-footer is-flex-direction-row " >   
+              <a href="/index?city=berlin" class="card-footer-item button ">Weekly Weather Forecast</a>                       
+            </p>
+          </footer> 
+        </section>
+      </div>
+
+    <div class="column is-4 ">
+        <section class="card has-text-centered has-text-white has-background-black">
+          <header class="card-header">
+            <p class="card-header-title is-size-4 is-centered has-text-white">
+              Cork
+            </p>
+          </header>
+          <article class="card-content">
+            <p class="content is-size-4">The weather is <span id="weatherToday_3"></span></p>
+          </article>
+          <article class="card-content">
+            <p class="card-footer-title is-size-4 is-centered">
+              <span id="minTemp_3"></span>&deg;C to <span id="maxTemp_3"></span>&deg;C
+            </p>
+          </article>
+          <footer class="card-footer is-flex-direction-row " >   
+              <a href="/index?city=cork" class="card-footer-item button ">Weekly Weather Forecast</a>                       
+            </p>
+          </footer> 
+        </section>
+      </div>
+
+    <div class="column is-4 ">
+        <section class="card has-text-centered has-text-white has-background-black">
+          <header class="card-header">
+            <p class="card-header-title is-size-4 is-centered has-text-white">
+              Paris
+            </p>
+          </header>
+          <article class="card-content">
+            <p class="content is-size-4">The weather is <span id="weatherToday_4"></span></p>
+          </article>
+          <article class="card-content">
+            <p class="card-footer-title is-size-4 is-centered">
+              <span id="minTemp_4"></span>&deg;C to <span id="maxTemp_4"></span>&deg;C
+            </p>
+          </article>
+          <footer class="card-footer is-flex-direction-row " >   
+              <a href="/index?city=paris" class="card-footer-item button ">Weekly Weather Forecast</a>                       
+            </p>
+          </footer> 
+        </section>
+      </div>
+
+    <div class="column is-4 ">
+        <section class="card has-text-centered has-text-white has-background-black">
+          <header class="card-header">
+            <p class="card-header-title is-size-4 is-centered has-text-white">
+              Tromso
+            </p>
+          </header>
+          <article class="card-content">
+            <p class="content is-size-5">The weather is <span id="weatherToday_5"></span></p>
+          </article>
+          <article class="card-content">
+            <p class="card-footer-title is-size-4 is-centered">
+              <span id="minTemp_5"></span>&deg;C to <span id="maxTemp_5"></span>&deg;C
+            </p>
+          </article>
+          <footer class="card-footer is-flex-direction-row " >   
+              <a href="/index?city=tromso" class="card-footer-item button ">Weekly Weather Forecast</a>                       
+            </p>
+          </footer> 
+        </section>
+      </div>
+
+      <div class="column is-4 ">
+        <section class="card has-text-centered has-text-white has-background-black">
+          <header class="card-header">
+            <p class="card-header-title is-size-4 is-centered has-text-white">
+              Waterford
+            </p>
+          </header>
+          <article class="card-content">
+            <p class="content is-size-6">The weather is <span id="weatherToday_6"></span></p>
+          </article>
+          <article class="card-content">
+            <p class="card-footer-title is-size-4 is-centered">
+              <span id="minTemp_6"></span>&deg;C to <span id="maxTemp_6"></span>&deg;C
+            </p>
+          </article>
+          <footer class="card-footer is-flex-direction-row " >   
+              <a href="/index?city=waterford" class="card-footer-item button ">Weekly Weather Forecast</a>                       
+            </p>
+          </footer> 
+        </section>
+      </div>
+
+      
+
+  </main>
+</html>
+
